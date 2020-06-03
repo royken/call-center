@@ -1,0 +1,49 @@
+<div class="row">
+  <div class="col-12">
+    <div class="content-header">Page</div>
+    <p class="content-sub-header mb-1">You can define your sub-header here</p>
+  </div>
+</div>
+
+<div class="row">
+
+
+  <div class="col-lg-6 col-12">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">Recherche de client</h4>
+      </div>
+      <div class="card-content">
+        <div class="card-body">
+          <form *ngIf="rechercheForm" role="form" [formGroup]="rechercheForm" (ngSubmit)="rechercheByNomAndNumero()">
+            <div class="form-group mb-3">
+              <fieldset>
+                <div class="input-group">
+                  <input type="number" formControlName="numeroDeCompte" class="form-control"
+                    placeholder="Numéro de compte">
+                  <div class="input-group-append">
+                    <button (click)="rechercheByNumero()" class="btn btn-primary" type="button">Rechercher</button>
+                  </div>
+                </div>
+              </fieldset>
+            </div>
+            <div class="form-group mb-3">
+              <fieldset>
+                <div class="input-group">
+                  <input type="number" formControlName="nomClient" class="form-control"
+                    placeholder="Numéro de compte">
+                  <div class="input-group-append">
+                    <button (click)="rechercheByNumero()" class="btn btn-primary" type="button">Rechercher</button>
+                  </div>
+                </div>
+              </fieldset>
+            </div>
+            <div class="text-center">
+              <button type="button" class="btn btn-primary my-4"  type="submit" >Rechercher</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

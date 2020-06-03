@@ -1,0 +1,30 @@
+<div class="row">
+  <div class="col-12">
+    <div class="content-header">Page</div>
+  </div>
+  <button type="button" class="btn btn-warning">Retour</button>
+</div>
+
+<div class="row">
+  <div class="col-xl-2 col-lg-6 col-md-12" *ngFor="let item of products | async" >
+    <div class="card overflow-hidden">
+      <div class="card-content">
+        <img class="card-img-top img-fluid" src="assets/img/14.png" alt="Card image cap">
+        <div class="card-body">
+          <h4 class="card-title">{{item.nom}}</h4>
+          <p class="card-text">{{item.codesi}}</p>
+          <div class="btn-group ml-1">
+            <form role="form" >
+            <button class="btn btn-primary px-1 py-1 font-medium-5" (click)="reduireItem(item.id)" >-</button>
+           <!-- <input class="btn btn-secondary px-1 py-1" [(ngModel)]="item.qte" name="qte" onchange="enregistrer()"> -->
+            <a class="btn btn-primary px-1 py-1" >{{item.qte}}</a>
+            <button class="btn btn-primary px-1 py-1 font-medium-5" (click)="augmenteItem(item.id)">+</button>
+          </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button type="button" class="btn btn-warning" (click)="enregistrer()" >Enregistrer</button>
