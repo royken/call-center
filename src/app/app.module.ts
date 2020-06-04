@@ -6,18 +6,18 @@ import { AngularFireAuthModule } from "@angular/fire/auth";
 
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { AgmCoreModule } from "@agm/core";
-import { DeviceDetectorModule } from 'ngx-device-detector';
+import { DeviceDetectorModule } from "ngx-device-detector";
 import { HttpClientModule, HttpClient } from "@angular/common/http";
 import { TranslateModule, TranslateLoader } from "@ngx-translate/core";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
-import { NgxSpinnerModule } from 'ngx-spinner';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgxSpinnerModule } from "ngx-spinner";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 import {
   PerfectScrollbarModule,
   PERFECT_SCROLLBAR_CONFIG,
-  PerfectScrollbarConfigInterface
-} from 'ngx-perfect-scrollbar';
+  PerfectScrollbarConfigInterface,
+} from "ngx-perfect-scrollbar";
 
 import { AppRoutingModule } from "./app-routing.module";
 import { SharedModule } from "./shared/shared.module";
@@ -27,7 +27,8 @@ import { FullLayoutComponent } from "./layouts/full/full-layout.component";
 
 import { AuthService } from "./shared/auth/auth.service";
 import { AuthGuard } from "./shared/auth/auth-guard.service";
-import { WINDOW_PROVIDERS } from './shared/services/window.service';
+import { WINDOW_PROVIDERS } from "./shared/services/window.service";
+import { CommandeService } from "./services/commande.service";
 
 var firebaseConfig = {
   apiKey: "YOUR_API_KEY", //YOUR_API_KEY
@@ -37,13 +38,12 @@ var firebaseConfig = {
   storageBucket: "YOUR_STORAGE_BUCKET", //YOUR_STORAGE_BUCKET
   messagingSenderId: "YOUR_MESSAGING_SENDER_ID", //YOUR_MESSAGING_SENDER_ID
   appId: "YOUR_APP_ID", //YOUR_APP_ID
-  measurementId: "YOUR_MEASUREMENT_ID" //YOUR_MEASUREMENT_ID
+  measurementId: "YOUR_MEASUREMENT_ID", //YOUR_MEASUREMENT_ID
 };
-
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
-  wheelPropagation: false
+  wheelPropagation: false,
 };
 
 export function createTranslateLoader(http: HttpClient) {
@@ -68,20 +68,24 @@ export function createTranslateLoader(http: HttpClient) {
       loader: {
         provide: TranslateLoader,
         useFactory: createTranslateLoader,
-        deps: [HttpClient]
-      }
+        deps: [HttpClient],
+      },
     }),
     AgmCoreModule.forRoot({
-      apiKey: "YOUR_GOOGLE_MAP_API_KEY"
+      apiKey: "YOUR_GOOGLE_MAP_API_KEY",
     }),
-    PerfectScrollbarModule
+    PerfectScrollbarModule,
   ],
   providers: [
     AuthService,
     AuthGuard,
-    { provide: PERFECT_SCROLLBAR_CONFIG, useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG },
-    WINDOW_PROVIDERS
+    CommandeService,
+    {
+      provide: PERFECT_SCROLLBAR_CONFIG,
+      useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG,
+    },
+    WINDOW_PROVIDERS,
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {}
