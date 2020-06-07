@@ -3,6 +3,7 @@ import { Component, OnInit } from "@angular/core";
 import { COMMANDES } from "./commandes";
 import { Commande } from "./commande";
 import { CommandeService } from "app/services/commande.service";
+import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: "app-commande-client",
@@ -13,8 +14,10 @@ export class CommandeClientComponent implements OnInit {
   productsSubscription: Subscription;
   //private _countries$ = new BehaviorSubject<Commande[]>([]);
   products: any[];
+  produitsCommande: any[];
+  closeResult = '';
 
-  constructor(private commandeService: CommandeService) {
+  constructor(private commandeService: CommandeService, private modalService: NgbModal) {
     // this._countries$.next(COMMANDES);
   }
 
@@ -39,4 +42,32 @@ export class CommandeClientComponent implements OnInit {
   ngOnDestroy() {
     this.productsSubscription.unsubscribe();
   }
+
+  getProduitsCommande(){
+    this.produitsCommande = this.commandeService.getProductsCommanded();
+  }
+
+  open(content) {
+    this.getProduitsCommande();
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
+
+  closeModal(){
+    this.modalService.dismissAll();
+  }
+
 }

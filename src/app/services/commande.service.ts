@@ -1,3 +1,4 @@
+import { Commande } from './../client-detail/commande-client/commande';
 import { Subject } from "rxjs/Subject";
 export class CommandeService {
   produitsSubject = new Subject<any[]>();
@@ -84,5 +85,15 @@ export class CommandeService {
 
   enregistrer() {
     console.log("PRODUITS", JSON.stringify(this.produits));
+  }
+
+  getProductsCommanded(): Array<Commande>{
+    var products: Array<Commande> = [];
+    this.produits.forEach(produit => {
+      if(produit.qte > 0){
+        products.push(produit);
+      }
+    })
+    return products;
   }
 }

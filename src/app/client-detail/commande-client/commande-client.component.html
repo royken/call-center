@@ -27,4 +27,39 @@
   </div>
 </div>
 
-<button type="button" class="btn btn-warning" (click)="onSave()">Enregistrer</button>
+<button type="button" class="btn btn-warning" (click)="open(content)">Enregistrer</button>
+
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Profile update</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+           <th scope="col"  >Produit</th>
+            <th scope="col"  >Quantite</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let produit of produitsCommande">
+            <td>
+              {{produit.nom}}
+            </td>
+            <td>
+              {{produit.qte}}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="closeModal()">Save</button>
+  </div>
+</ng-template>

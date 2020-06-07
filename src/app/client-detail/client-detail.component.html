@@ -13,28 +13,28 @@
         </div>
         <div class="row">
           <div class="col-xl-4 col-sm-6 col-12">
-            <label for="last-name" class="col-form-label">No COMPTE: </label>1236547890
+            <label for="last-name" class="col-form-label">No COMPTE: </label>{{selectedClient.numero}}
           </div>
           <div class="col-xl-4 col-sm-6 col-12">
-            <label for="last-name" class="col-form-label">NOM PDV: </label>1236547890
+            <label for="last-name" class="col-form-label">NOM PDV: </label>{{selectedClient.raisonSociale}}
           </div>
           <div class="col-xl-4 col-sm-6 col-12">
-            <label for="last-name" class="col-form-label">PROPRIETAIRE: </label> 1236547890
+            <label for="last-name" class="col-form-label">PROPRIETAIRE: </label> {{selectedClient.nomProprietaire}}
           </div>
         </div>
 
         <div class="row">
           <div class="col-xl-3 col-sm-6 col-12">
-            <label for="last-name" class="col-form-label">Adresse: </label>1236547890
+            <label for="last-name" class="col-form-label">Adresse: </label>{{selectedClient.adresse}}
           </div>
           <div class="col-xl-3 col-sm-6 col-12">
-            <label for="last-name" class="col-form-label">Quartier: </label>1236547890
+            <label for="last-name" class="col-form-label">Quartier: </label>{{selectedClient.quartier}}
           </div>
           <div class="col-xl-3 col-sm-6 col-12">
-            <label for="last-name" class="col-form-label">Commune: </label> 1236547890
+            <label for="last-name" class="col-form-label">Commune: </label> {{selectedClient.commune}}
           </div>
           <div class="col-xl-3 col-sm-6 col-12">
-            <label for="last-name" class="col-form-label">TELEPHONE: </label> 1236547890
+            <label for="last-name" class="col-form-label">TELEPHONE: </label> {{selectedClient.telephone}}
           </div>
 
         </div>
@@ -42,13 +42,13 @@
         <div class="bg-light-secondary">
           <div class="row">
             <div class="col-xl-3 col-sm-6 col-12">
-              <label for="last-name" class="col-form-label">Type PDV: </label>TERRASSE
+              <label for="last-name" class="col-form-label">Type PDV: </label>{{selectedClient.type}}
             </div>
             <div class="col-xl-3 col-sm-6 col-12">
-              <label for="last-name" class="col-form-label">Régime: </label>MIXTE
+              <label for="last-name" class="col-form-label">Régime: </label>{{selectedClient.regime}}
             </div>
             <div class="col-xl-3 col-sm-6 col-12">
-              <label for="last-name" class="col-form-label">Catégotie: </label> OR
+              <label for="last-name" class="col-form-label">Catégotie: </label> {{selectedClient.categorie}}
             </div>
             <div class="col-xl-3 col-sm-6 col-12">
               <label for="last-name" class="col-form-label">Décoration: </label> BEAUFORT
@@ -56,7 +56,7 @@
           </div>
           <div class="row">
             <div class="col-xl-3 col-sm-6 col-12">
-              <label for="last-name" class="col-form-label">Contrat No: </label>1517/2020
+              <label for="last-name" class="col-form-label">Contrat No: </label>{{selectedClient.numeroContrat}}
             </div>
             <div class="col-xl-3 col-sm-6 col-12">
               <label for="last-name" class="col-form-label">Deb Contrat: </label> 25/05/2020
@@ -65,20 +65,20 @@
               <label for="last-name" class="col-form-label">Fin Contrat: </label> 25/05/2020
             </div>
             <div class="col-xl-3 col-sm-6 col-12">
-              <label for="last-name" class="col-form-label">Date Création: </label> 25/05/2020
+              <label for="last-name" class="col-form-label">Date Création: </label> {{selectedClient.dateCreation}}
             </div>
           </div>
         </div>
 
         <div class="row">
           <div class="col-xl-3 col-sm-6 col-12">
-            <label for="last-name" class="col-form-label">Emballages: </label>200
+            <label for="last-name" class="col-form-label">Emballages: </label>{{selectedClient.emballage}}
           </div>
           <div class="col-xl-3 col-sm-6 col-12">
-            <label for="last-name" class="col-form-label">Emb. Consigne: </label> 300
+            <label for="last-name" class="col-form-label">Emb. Consigne: </label> {{selectedClient.consignationEmballages}}
           </div>
           <div class="col-xl-3 col-sm-6 col-12">
-            <label for="last-name" class="col-form-label">D. Achat: </label> 25/05/2020
+            <label for="last-name" class="col-form-label">D. Achat: </label> {{selectedClient.dernierAchat}}
           </div>
           <div class="col-xl-3 col-sm-6 col-12">
             <label for="last-name" class="col-form-label">MAJ: </label> 25/05/2020
@@ -98,25 +98,25 @@
         </div>
         <div class="row">
           <div class="col-xl-4 col-sm-6 col-12">
-            <label for="last-name" class="col-form-label">Sup: </label>1236547890
+            <label for="last-name" class="col-form-label">Sup: </label>{{selectedClient.nomSup}}
           </div>
           <div class="col-xl-4 col-sm-6 col-12">
-            <label for="last-name" class="col-form-label">Merch: </label>1236547890
+            <label for="last-name" class="col-form-label">Merch: </label>{{selectedClient.nomMerch}}
           </div>
           <div class="col-xl-4 col-sm-6 col-12">
-            <label for="last-name" class="col-form-label">Vendeur: </label> 1236547890
+            <label for="last-name" class="col-form-label">Vendeur: </label> {{selectedClient.nomVendeur}}
           </div>
         </div>
 
         <div class="row">
           <div class="col-xl-4 col-sm-6 col-12">
-            <label for="last-name" class="col-form-label">Tel: </label>1236547890
+            <label for="last-name" class="col-form-label">Tel: </label>{{selectedClient.telSup}}
           </div>
           <div class="col-xl-4 col-sm-6 col-12">
-            <label for="last-name" class="col-form-label">Tel: </label>1236547890
+            <label for="last-name" class="col-form-label">Tel: </label>{{selectedClient.telMerch}}
           </div>
           <div class="col-xl-4 col-sm-6 col-12">
-            <label for="last-name" class="col-form-label">Tel: </label> 1236547890
+            <label for="last-name" class="col-form-label">Tel: </label> {{selectedClient.telVendeur}}
           </div>
         </div>
       </div>

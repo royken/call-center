@@ -6,8 +6,6 @@
 </div>
 
 <div class="row">
-
-
   <div class="col-lg-6 col-12">
     <div class="card">
       <div class="card-header">
@@ -30,16 +28,15 @@
             <div class="form-group mb-3">
               <fieldset>
                 <div class="input-group">
-                  <input type="number" formControlName="nomClient" class="form-control"
-                    placeholder="Numéro de compte">
+                  <input type="text" formControlName="nomClient" class="form-control" placeholder="Numéro de compte">
                   <div class="input-group-append">
-                    <button (click)="rechercheByNumero()" class="btn btn-primary" type="button">Rechercher</button>
+                    <button (click)="rechercheByNom()" class="btn btn-primary" type="button">Rechercher</button>
                   </div>
                 </div>
               </fieldset>
             </div>
             <div class="text-center">
-              <button type="button" class="btn btn-primary my-4"  type="submit" >Rechercher</button>
+              <button type="button" class="btn btn-primary my-4" type="submit">Rechercher</button>
             </div>
           </form>
         </div>
@@ -47,9 +44,64 @@
     </div>
   </div>
 </div>
+
+<div class="row" *ngIf="clientsLoaded" >
+  <div class="col-12">
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">Résultats</h4>
+    </div>
+    <div class="card-content">
+      <div class="card-body">
+        <!--<mat-form-field class="table">
+          <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtrer">
+        </mat-form-field> -->
+        <div class="spinner-container" *ngIf="!clientsLoaded">
+          <mat-spinner></mat-spinner>
+        </div>
+        <mat-table [dataSource]="dataSource">
+
+          <!-- Name Column -->
+
+          <ng-container matColumnDef="code">
+            <mat-header-cell *matHeaderCellDef> CODE </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{ element.numero}} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="nom">
+            <mat-header-cell *matHeaderCellDef> NOM </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{ element.raisonSociale}} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="adresse">
+            <mat-header-cell *matHeaderCellDef> ADRESSE </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{ element.adresse}} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="quartier">
+            <mat-header-cell *matHeaderCellDef> QUARTIER </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{ element.quartier}} </mat-cell>
+          </ng-container>
+
+          <!-- Weight Column -->
+          <ng-container matColumnDef="action">
+            <mat-header-cell *matHeaderCellDef> Action </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              <button type="button" class="btn btn-info" matTooltip="Détails" (click)="gotoClientDetail(element.numero)"><span
+                  class="icon-info"></span>
+              </button>&nbsp;
+            </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+
+        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
 <div class="row">
   <div id="surveyContainer">
     <div id="creatorElement"></div>
   </div>
 </div>
-
