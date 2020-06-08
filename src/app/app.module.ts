@@ -1,3 +1,4 @@
+import { SharedDataService } from './services/shared-data.service';
 import { NgModule } from "@angular/core";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
@@ -80,6 +81,7 @@ export function createTranslateLoader(http: HttpClient) {
     AuthService,
     AuthGuard,
     CommandeService,
+    SharedDataService,
     {
       provide: PERFECT_SCROLLBAR_CONFIG,
       useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG,

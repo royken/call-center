@@ -45,7 +45,7 @@
   </div>
 </div>
 
-<div class="row" *ngIf="clientsLoaded" >
+<div class="row" *ngIf="clientsLoaded" match-height>
   <div class="col-12">
   <div class="card">
     <div class="card-header">
@@ -79,12 +79,20 @@
             <mat-header-cell *matHeaderCellDef> QUARTIER </mat-header-cell>
             <mat-cell *matCellDef="let element"> {{ element.quartier}} </mat-cell>
           </ng-container>
+          <ng-container matColumnDef="regime">
+            <mat-header-cell *matHeaderCellDef> REGIME </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{ element.regime}} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="categorie">
+            <mat-header-cell *matHeaderCellDef> CATEGORIE </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{ element.categorie}} </mat-cell>
+          </ng-container>
 
           <!-- Weight Column -->
           <ng-container matColumnDef="action">
             <mat-header-cell *matHeaderCellDef> Action </mat-header-cell>
             <mat-cell *matCellDef="let element">
-              <button type="button" class="btn btn-info" matTooltip="Détails" (click)="gotoClientDetail(element.numero)"><span
+              <button type="button" class="btn btn-info" matTooltip="Détails" (click)="gotoClientDetail(element)"><span
                   class="icon-info"></span>
               </button>&nbsp;
             </mat-cell>
@@ -99,9 +107,4 @@
     </div>
   </div>
 </div>
-</div>
-<div class="row">
-  <div id="surveyContainer">
-    <div id="creatorElement"></div>
-  </div>
 </div>

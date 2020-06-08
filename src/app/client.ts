@@ -47,4 +47,16 @@ export interface Client {
 
   telSup: String;
 
+  codeCircuit: String;
+
+  cd: String;
+
+  dateDebutContrat: Date;
+
+  dateFinContrat: Date;
+
+  dateMiseAjour: Date;
+
+  decoration: String;
+
 }

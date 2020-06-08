@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from "@angular/common";
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommandeClientComponent } from './commande-client/commande-client.component';
+import { VentesClientComponent } from './ventes-client/ventes-client.component';
 
 
 
@@ -18,7 +19,8 @@ import { CommandeClientComponent } from './commande-client/commande-client.compo
   exports: [],
   declarations: [
     ClientDetailComponent,
-    CommandeClientComponent
+    CommandeClientComponent,
+    VentesClientComponent
   ],
   providers: [],
 })

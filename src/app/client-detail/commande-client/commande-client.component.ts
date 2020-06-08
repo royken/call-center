@@ -1,9 +1,12 @@
+import { ArticleService } from "./../../services/article.service";
+import { SharedDataService } from "./../../services/shared-data.service";
+import { Client } from "./../../client";
 import { Observable, of, from, BehaviorSubject, Subscription } from "rxjs";
 import { Component, OnInit } from "@angular/core";
 import { COMMANDES } from "./commandes";
 import { Commande } from "./commande";
 import { CommandeService } from "app/services/commande.service";
-import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: "app-commande-client",
@@ -15,59 +18,97 @@ export class CommandeClientComponent implements OnInit {
   //private _countries$ = new BehaviorSubject<Commande[]>([]);
   products: any[];
   produitsCommande: any[];
-  closeResult = '';
+  closeResult = "";
+  selectedClient: Client;
+  articles: any[];
+  articlesCommandes: any[];
+  articleSubscription: Subscription;
+  articleLoaded: boolean = false;
 
-  constructor(private commandeService: CommandeService, private modalService: NgbModal) {
+  constructor(
+    private commandeService: CommandeService,
+    private modalService: NgbModal,
+    private sharedDataService: SharedDataService,
+    private articleService: ArticleService
+  ) {
     // this._countries$.next(COMMANDES);
   }
 
   ngOnInit(): void {
-    this.productsSubscription = this.commandeService.produitsSubject.subscribe(
+    this.sharedDataService.getClientRecord().subscribe((data) => {
+      this.selectedClient = data;
+      console.log("DEST CLIENT", JSON.stringify(this.selectedClient));
+    });
+    /*this.productsSubscription = this.commandeService.produitsSubject.subscribe(
       (products: any[]) => {
         this.products = products;
       }
     );
     this.commandeService.emitProductsSubject();
+*/
+    this.articleService.getArticles().subscribe((_) => {
+      this.articleSubscription = this.articleService.articlesSubject.subscribe(
+        (articles: any[]) => {
+          this.articles = articles;
+          this.articleLoaded = true;
+        }
+      );
+      this.articleService.emitProductsSubject();
+    });
   }
 
   onAddQuantity(id) {
-    this.commandeService.incrementQuantity(id);
+    // this.commandeService.incrementQuantity(id);
+    this.articleService.incrementQuantity(id);
   }
   onRemoveQuantity(id) {
-    this.commandeService.decrementQuantity(id);
+    // this.commandeService.decrementQuantity(id);
+    this.articleService.decrementQuantity(id);
   }
   onSave() {
     this.commandeService.enregistrer();
   }
   ngOnDestroy() {
-    this.productsSubscription.unsubscribe();
+    // this.productsSubscription.unsubscribe();
+    this.articleSubscription.unsubscribe();
   }
 
-  getProduitsCommande(){
-    this.produitsCommande = this.commandeService.getProductsCommanded();
+  getProduitsCommande() {
+    // this.produitsCommande = this.commandeService.getProductsCommanded();
+    this.articlesCommandes = this.articleService.getProductsCommanded();
+    console.log(JSON.stringify(this.articlesCommandes));
   }
 
   open(content) {
     this.getProduitsCommande();
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
+    this.modalService
+      .open(content, { ariaLabelledBy: "modal-basic-title" })
+      .result.then(
+        (result) => {
+          this.closeResult = `Closed with: ${result}`;
+        },
+        (reason) => {
+          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+        }
+      );
   }
 
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
+      return "by pressing ESC";
     } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
+      return "by clicking on a backdrop";
     } else {
       return `with: ${reason}`;
     }
   }
 
-  closeModal(){
-    this.modalService.dismissAll();
+  getArticleImage(codeProduit: String){
+    console.log(codeProduit)
+    return 'assets/img/produits/' + codeProduit + '.png';
   }
 
+  closeModal() {
+    this.modalService.dismissAll();
+  }
 }

@@ -1,3 +1,4 @@
+import { VentesClientComponent } from './ventes-client/ventes-client.component';
 import { CommandeClientComponent } from './commande-client/commande-client.component';
 import { ClientDetailComponent } from './client-detail.component';
 import { NgModule } from '@angular/core';
@@ -27,6 +28,13 @@ const routes: Routes = [
     component: CommandeClientComponent,
     data: {
       title: 'Commande'
+   }
+  },
+  {
+    path: 'ventes',
+    component: VentesClientComponent,
+    data: {
+      title: 'Ventes'
    }
   }
 ];

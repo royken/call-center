@@ -28,7 +28,7 @@ export class RechercheClientComponent implements OnInit {
   rechercheForm: FormGroup;
   listClients: Client[];
 
-  displayedColumns: string[] = ["code", "nom", "adresse","quartier", "action"];
+  displayedColumns: string[] = ["code", "nom", "adresse","quartier","regime","categorie", "action"];
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   dataSource = new MatTableDataSource();
@@ -197,5 +197,7 @@ export class RechercheClientComponent implements OnInit {
   gotoClientDetail(client: Client){
     console.log("CLIENT", JSON.stringify(client));
     this.sharedDataService.setClientRecord(client);
+    this.router.navigate(["detail-client"]);
   }
+
 }

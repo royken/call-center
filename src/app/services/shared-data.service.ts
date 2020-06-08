@@ -17,7 +17,9 @@ export class SharedDataService {
   public getClientRecord(): Observable<Client> {
     return this.clientRecord.asObservable();
   }
-  public setClientRecord(product: Client): void {
+  public setClientRecord(client: Client): void {
+    this.clientData = client;
+    console.log("INTERM CLIENT", JSON.stringify(this.clientData))
     this.clientRecord.next(this.clientData);
   }
 

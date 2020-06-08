@@ -22,4 +22,12 @@ export class ClientService {
     return this.http.get(apiUrl + "clients/recherchebyNumeroAndNom" + "/" + nom + '/' + numero);
   }
 
+  getPlaintesClient(numero: string): Observable<any>{
+    return this.http.get(apiUrl + "plaintes/maryse/client" + "/"  + numero);
+  }
+
+  getMaterielClient(numero: string): Observable<any>{
+    return this.http.get(apiUrl + "materiels/maryse/client" + "/"  + numero);
+  }
+
 }
