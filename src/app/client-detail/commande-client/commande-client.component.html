@@ -1,8 +1,8 @@
 <div class="row">
   <div class="col-12">
-    <div class="content-header">Page</div>
+    <div class="content-header">Ventes Clients - {{selectedClient.numero}} - {{selectedClient.raisonSociale}}</div>
   </div>
-  <button type="button" class="btn btn-warning">Retour</button>
+  <button type="button" class="btn btn-success round mr-1 mb-1" (click)="goToClientDetailPage()" >Retour</button>
 </div>
 
 <div class="row" *ngIf="articleLoaded" >

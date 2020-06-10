@@ -7,6 +7,7 @@ import { COMMANDES } from "./commandes";
 import { Commande } from "./commande";
 import { CommandeService } from "app/services/commande.service";
 import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
+import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
   selector: "app-commande-client",
@@ -15,7 +16,6 @@ import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
 })
 export class CommandeClientComponent implements OnInit {
   productsSubscription: Subscription;
-  //private _countries$ = new BehaviorSubject<Commande[]>([]);
   products: any[];
   produitsCommande: any[];
   closeResult = "";
@@ -29,23 +29,16 @@ export class CommandeClientComponent implements OnInit {
     private commandeService: CommandeService,
     private modalService: NgbModal,
     private sharedDataService: SharedDataService,
-    private articleService: ArticleService
+    private articleService: ArticleService,
+    private router: Router
   ) {
-    // this._countries$.next(COMMANDES);
   }
 
   ngOnInit(): void {
     this.sharedDataService.getClientRecord().subscribe((data) => {
       this.selectedClient = data;
-      console.log("DEST CLIENT", JSON.stringify(this.selectedClient));
     });
-    /*this.productsSubscription = this.commandeService.produitsSubject.subscribe(
-      (products: any[]) => {
-        this.products = products;
-      }
-    );
-    this.commandeService.emitProductsSubject();
-*/
+
     this.articleService.getArticles().subscribe((_) => {
       this.articleSubscription = this.articleService.articlesSubject.subscribe(
         (articles: any[]) => {
@@ -58,23 +51,19 @@ export class CommandeClientComponent implements OnInit {
   }
 
   onAddQuantity(id) {
-    // this.commandeService.incrementQuantity(id);
     this.articleService.incrementQuantity(id);
   }
   onRemoveQuantity(id) {
-    // this.commandeService.decrementQuantity(id);
     this.articleService.decrementQuantity(id);
   }
   onSave() {
     this.commandeService.enregistrer();
   }
   ngOnDestroy() {
-    // this.productsSubscription.unsubscribe();
     this.articleSubscription.unsubscribe();
   }
 
   getProduitsCommande() {
-    // this.produitsCommande = this.commandeService.getProductsCommanded();
     this.articlesCommandes = this.articleService.getProductsCommanded();
     console.log(JSON.stringify(this.articlesCommandes));
   }
@@ -110,5 +99,9 @@ export class CommandeClientComponent implements OnInit {
 
   closeModal() {
     this.modalService.dismissAll();
+  }
+
+  goToClientDetailPage(){
+    this.router.navigate(['detail-client']);
   }
 }

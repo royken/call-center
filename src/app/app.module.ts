@@ -1,3 +1,5 @@
+import { SurveyComponent } from './components/survey.component';
+import { SurveyCreatorComponent } from './components/survey.creator.component';
 import { SharedDataService } from './services/shared-data.service';
 import { NgModule } from "@angular/core";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
@@ -64,6 +66,7 @@ export function createTranslateLoader(http: HttpClient) {
     NgxSpinnerModule,
     FormsModule,
     ReactiveFormsModule,
+
     DeviceDetectorModule.forRoot(),
     TranslateModule.forRoot({
       loader: {

@@ -19,15 +19,38 @@ export class ClientService {
   }
 
   rechercheByNomAndNumero(nom: string, numero: string): Observable<any> {
-    return this.http.get(apiUrl + "clients/recherchebyNumeroAndNom" + "/" + nom + '/' + numero);
+    return this.http.get(
+      apiUrl + "clients/recherchebyNumeroAndNom" + "/" + nom + "/" + numero
+    );
   }
 
-  getPlaintesClient(numero: string): Observable<any>{
-    return this.http.get(apiUrl + "plaintes/maryse/client" + "/"  + numero);
+  getPlaintesClient(numero: string): Observable<any> {
+    return this.http.get(apiUrl + "plaintes/maryse/client" + "/" + numero);
   }
 
-  getMaterielClient(numero: string): Observable<any>{
-    return this.http.get(apiUrl + "materiels/maryse/client" + "/"  + numero);
+  getMaterielClient(numero: string): Observable<any> {
+    return this.http.get(apiUrl + "materiels/maryse/client" + "/" + numero);
   }
 
+  getHistoRemise(numero: String, password: String): Observable<any> {
+    return this.http.get(
+      apiUrl + "achats/remise/histo" + "/" + numero + "/" + password
+    );
+  }
+
+  getHistoAchatsMois(numero: String, password: String): Observable<any> {
+    return this.http.get(apiUrl + "achats" + "/" + numero + "/" + password);
+  }
+
+  getProduitsAchatsMois(numero: String, password: String): Observable<any> {
+    return this.http.get(
+      apiUrl + "achats/produits" + "/" + numero + "/" + password
+    );
+  }
+
+  getHistoAchatsAnnee(numero: String, password: String): Observable<any> {
+    return this.http.get(
+      apiUrl + "achats/annee" + "/" + numero + "/" + password
+    );
+  }
 }

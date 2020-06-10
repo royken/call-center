@@ -21,4 +21,11 @@ export const Full_ROUTES: Routes = [
         (m) => m.ClientDetailModule
       ),
   },
+  {
+    path: 'survey',
+    loadChildren: () =>
+      import('../../survey-page/survey-page.module').then(
+        (m) => m.SurveyPageModule
+      ),
+  },
 ];

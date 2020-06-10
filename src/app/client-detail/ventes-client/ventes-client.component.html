@@ -1,1 +1,188 @@
-<p>ventes-client works!</p>
+<div class="row">
+  <div class="col-12">
+    <div class="content-header">Ventes Clients - {{selectedClient.numero}} - {{selectedClient.raisonSociale}}</div>
+  </div>
+  <button type="button" class="btn btn-success round mr-1 mb-1" (click)="goToClientDetailPage()" >Retour</button>
+</div>
+
+<div class="row">
+
+  <div class="col-xl-6 col-12">
+    <div class="row" *ngIf="histoAchatMoisLoaded" >
+      <div class="col-xl-12 col-12">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">HISTO ACHATS DU MOIS</h4>
+          </div>
+          <div class="card-content">
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th scope="col">Mois</th>
+                      <th scope="col">BI</th>
+                      <th scope="col">BG</th>
+                      <th scope="col">PET</th>
+                      <th scope="col">MONTANT</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of achatJourData; let i = index" >
+                      <td>{{i + 1}}</td>
+                      <td >{{item.qteBi}}</td>
+                      <td>{{item.qteBg}}</td>
+                      <td>{{item.qtePet}}</td>
+                      <td>{{item.chiffreAffaire}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="row" *ngIf="histoAchatLoaded" >
+      <div class="col-xl-12 col-12">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">PRODUITS ACHETES DU MOIS</h4>
+          </div>
+          <div class="card-content">
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th scope="col">Nom</th>
+                      <th scope="col">Quantite</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of produitsMois" >
+                      <td>{{item.nomProduit}}</td>
+                      <td >{{item.quantite}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="col-xl-6 col-12">
+    <div class="row" *ngIf="histoRemiseLoaded" >
+      <div class="col-xl-6 col-6">
+        <div class="card gradient-purple-love">
+          <div class="card-content">
+            <div class="card-body py-0">
+              <div class="media pb-1">
+                <div class="media-body white text-left">
+                  <h3 class="font-large-1 white mb-0">{{getRemiseMois}} FC</h3>
+                  <span>Remise cumulée du mois</span>
+                </div>
+                <div class="media-right white text-right">
+                  <i class="ft-activity font-large-1"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-6 col-6">
+        <div class="card gradient-ibiza-sunset">
+          <div class="card-content">
+            <div class="card-body py-0">
+              <div class="media pb-1">
+                <div class="media-body white text-left">
+                  <h3 class="font-large-1 white mb-0">{{getChiffreAffaireMois()}} FC</h3>
+                  <span>Chiffre d'Affaire</span>
+                </div>
+                <div class="media-right white text-right">
+                  <i class="ft-activity font-large-1"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row" *ngIf="histoRemiseLoaded">
+      <div class="col-xl-12 col-12">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">HISTO DES REMISES</h4>
+          </div>
+          <div class="card-content">
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th scope="col">Mois</th>
+                      <th scope="col">Remise</th>
+                      <th scope="col">C. Affaire<</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of histoRemise" >
+                      <td>{{getMonthByNumber(item.mois)}}</td>
+                      <td >{{item.remise}}</td>
+                      <td>{{item.chiffreAffaire}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="row" *ngIf="produitsMoisLoaded" >
+      <div class="col-xl-12 col-12">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">HISTO ACHATS DE L'ANNEE</h4>
+          </div>
+          <div class="card-content">
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th scope="col">Jour</th>
+                      <th scope="col">BI</th>
+                      <th scope="col">BG</th>
+                      <th scope="col">PET</th>
+                      <th scope="col">MONTANT</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of achatMoisData; let i = index" >
+                      <td>{{getMonthByNumber(i)}}</td>
+                      <td >{{item.qteBi}}</td>
+                      <td>{{item.qteBg}}</td>
+                      <td>{{item.qtePet}}</td>
+                      <td>{{item.chiffreAffaire}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+

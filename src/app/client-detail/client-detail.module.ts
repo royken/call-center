@@ -5,6 +5,7 @@ import { CommonModule } from "@angular/common";
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommandeClientComponent } from './commande-client/commande-client.component';
 import { VentesClientComponent } from './ventes-client/ventes-client.component';
+import { ClientSurveyComponent } from './client-survey/client-survey.component';
 
 
 
@@ -20,7 +21,8 @@ import { VentesClientComponent } from './ventes-client/ventes-client.component';
   declarations: [
     ClientDetailComponent,
     CommandeClientComponent,
-    VentesClientComponent
+    VentesClientComponent,
+    ClientSurveyComponent
   ],
   providers: [],
 })
