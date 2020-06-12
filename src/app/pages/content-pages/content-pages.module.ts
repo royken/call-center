@@ -1,3 +1,4 @@
+import { AuthService } from './../../services/auth.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from "@angular/common";
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -22,6 +23,7 @@ import { LoginPageComponent } from "./login/login-page.component";
     declarations: [
         ErrorPageComponent,
         LoginPageComponent
-    ]
+    ],
+    providers: [AuthService],
 })
 export class ContentPagesModule { }

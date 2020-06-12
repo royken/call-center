@@ -8,6 +8,11 @@ const apiUrl = "http://localhost:8085/bracongo-api/";
   providedIn: "root",
 })
 export class ClientService {
+
+   private clientsLoaded: boolean = false;
+
+   private clientsList = [];
+
   constructor(private http: HttpClient) {}
 
   rechercheByNumero(numero: any): Observable<any> {
@@ -52,5 +57,21 @@ export class ClientService {
     return this.http.get(
       apiUrl + "achats/annee" + "/" + numero + "/" + password
     );
+  }
+
+  isClientLoaded():boolean{
+    return this.clientsLoaded;
+  }
+
+  setClientsLoaded(loaded: boolean){
+    this.clientsLoaded = loaded;
+  }
+
+  getListClients():Array<any>{
+    return this.clientsList;
+  }
+
+  setListClient(clients: Array<any>){
+    this.clientsList = clients;
   }
 }

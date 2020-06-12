@@ -31,4 +31,11 @@ export const CONTENT_ROUTES: Routes = [
         (m) => m.SurveyPageModule
       ),
   },
+  {
+    path: "users",
+    loadChildren: () =>
+      import("../../utilisateur/utilisateur.module").then(
+        (m) => m.UtilisateurModule
+      ),
+  },
 ];

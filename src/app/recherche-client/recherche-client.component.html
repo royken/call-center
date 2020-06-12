@@ -1,12 +1,12 @@
 <div class="row">
   <div class="col-12">
-    <div class="content-header">Page</div>
-    <p class="content-sub-header mb-1">You can define your sub-header here</p>
+    <div class="content-header">Accueil</div>
   </div>
 </div>
 
 <div class="row">
-  <div class="col-lg-6 col-12">
+  <div class="col-lg-12 col-12 d-flex align-items-center justify-content-center">
+  <div class="col-lg-6">
     <div class="card">
       <div class="card-header">
         <h4 class="card-title">Recherche de client</h4>
@@ -19,19 +19,13 @@
                 <div class="input-group">
                   <input type="number" formControlName="numeroDeCompte" class="form-control"
                     placeholder="Numéro de compte">
-                  <div class="input-group-append">
-                    <button (click)="rechercheByNumero()" class="btn btn-primary" type="button">Rechercher</button>
-                  </div>
                 </div>
               </fieldset>
             </div>
             <div class="form-group mb-3">
               <fieldset>
                 <div class="input-group">
-                  <input type="text" formControlName="nomClient" class="form-control" placeholder="Numéro de compte">
-                  <div class="input-group-append">
-                    <button (click)="rechercheByNom()" class="btn btn-primary" type="button">Rechercher</button>
-                  </div>
+                  <input type="text" formControlName="nomClient" class="form-control" placeholder="Nom Client">
                 </div>
               </fieldset>
             </div>
@@ -44,6 +38,7 @@
     </div>
   </div>
 </div>
+</div>
 
 <div class="row" *ngIf="clientsLoaded" match-height>
   <div class="col-12">
@@ -53,9 +48,12 @@
     </div>
     <div class="card-content">
       <div class="card-body">
-        <!--<mat-form-field class="table">
-          <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtrer">
-        </mat-form-field> -->
+        <form class="form-search form-inline">
+          <mat-form-field class="table">
+            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtrer">
+          </mat-form-field>
+        </form>
+
         <div class="spinner-container" *ngIf="!clientsLoaded">
           <mat-spinner></mat-spinner>
         </div>

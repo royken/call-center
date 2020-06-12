@@ -1,7 +1,8 @@
+/*import { AuthService } from './../../../shared/auth/auth.service';*/
+import { AuthService } from './../../../services/auth.service';
 import { Component, ViewChild } from '@angular/core';
 import { NgForm, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from "@angular/router";
-import { AuthService } from 'app/shared/auth/auth.service';
 import { NgxSpinnerService } from "ngx-spinner";
 
 
@@ -17,7 +18,7 @@ export class LoginPageComponent {
   isLoginFailed = false;
 
   loginForm = new FormGroup({
-    username: new FormControl('guest@apex.com', [Validators.required]),
+    username: new FormControl('username', [Validators.required]),
     password: new FormControl('Password', [Validators.required]),
     rememberMe: new FormControl(true)
   });
@@ -47,18 +48,40 @@ export class LoginPageComponent {
         color: '#fff',
         fullScreen: true
       });
+      const loginData = {
+        username: this.loginForm.value.username,
+        password: this.loginForm.value.password,
+      };
+      localStorage.removeItem('token');
+      //this.authService.register(loginData);
 
-    this.authService.signinUser(this.loginForm.value.username, this.loginForm.value.password)
+      this.authService.login(loginData).subscribe(data => {
+
+        if (data.status) {
+          localStorage.setItem('token', data.accessToken);
+          localStorage.setItem('username', data.username);
+          localStorage.setItem('role', data.role);
+          this.spinner.hide();
+          this.router.navigate(["/recherche-client"]);
+        }
+        else{
+          this.isLoginFailed = true;
+          this.spinner.hide();
+        }
+      });
+
+
+    /*this.authService.signinUser(this.loginForm.value.username, this.loginForm.value.password)
       .then((res) => {
         this.spinner.hide();
-        this.router.navigate(['/page']);
+        this.router.navigate(['/recherche-client']);
       })
       .catch((err) => {
         this.isLoginFailed = true;
         this.spinner.hide();
         console.log('error: ' + err)
       }
-      );
+      );*/
   }
 
 }

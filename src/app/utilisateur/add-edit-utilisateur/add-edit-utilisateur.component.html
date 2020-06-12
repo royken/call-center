@@ -1,0 +1,71 @@
+<div class="row">
+  <div class="col-12">
+    <div class="content-header">Formulaire d'ajour d'un utilisateur</div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card ">
+      <div class="card-body">
+        <div class="d-flex justify-content-between mb-2">
+          <span class="badge bg-light-primary">IDENTIFICATION DU PDV</span>
+        </div>
+        <form [formGroup]="utilisateurForm" (ngSubmit)="saveUtilisateur()">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <input type="text" class="form-control" formControlName="nom" id="nom"
+                  placeholder="Nom d'utilisateur">
+                <small *ngIf="!utilisateurForm.controls.nom.valid" class="text-danger"></small>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <input type="text" class="form-control" formControlName="username" id="username"
+                    placeholder="Login">
+                  <small *ngIf="!utilisateurForm.controls.username.valid" class="text-danger"></small>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <input type="text" class="form-control" formControlName="password" id="password"
+                      placeholder="Mot de Passe">
+                    <small *ngIf="!utilisateurForm.controls.password.valid" class="text-danger"></small>
+                  </div>
+                </div>
+              </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <select formControlName="role" id="role">
+                  <option [ngValue]="null" disabled>Choisir un Role</option>
+                  <option *ngFor="let role of roles; let i = index" [ngValue]="role">
+                    {{role}}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-2">
+              <button *ngIf="!isEdit" type="submit" class="btn btn-primary">Ajouter</button>
+              <button *ngIf="isEdit" type="submit" [disabled]="utilisateurForm.invalid "
+                class="btn btn-primary">Modifier</button>&nbsp;
+            </div>
+            <div class="col-md-2">
+              <button class="btn btn-secondary" type="button" (click)="onBack()">Retour</button>
+            </div>
+          </div>
+        </form>
+
+
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,6 +1,7 @@
+import { AddEditUtilisateurComponent } from './add-edit-utilisateur/add-edit-utilisateur.component';
+import { UtilisateurRoutingModule } from './utilisateur-routing.module';
+import { UtilisateurComponent } from './utilisateur.component';
 import { ClientService } from './../services/client.service';
-import { RechercheClientRoutingModule } from './recherche-client-routing.module';
-import { RechercheClientComponent } from './recherche-client.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from "@angular/common";
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -19,7 +20,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 @NgModule({
   imports: [
     CommonModule,
-    RechercheClientRoutingModule,
+    UtilisateurRoutingModule,
     FormsModule,
     ReactiveFormsModule,
     MatButtonModule,
@@ -33,8 +34,9 @@ import { NgxSpinnerModule } from 'ngx-spinner';
   ],
   exports: [],
   declarations: [
-    RechercheClientComponent
+    UtilisateurComponent,
+    AddEditUtilisateurComponent
   ],
   providers: [ClientService],
 })
-export class RechercheClientModule { }
+export class UtilisateurModule { }

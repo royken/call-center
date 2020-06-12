@@ -1,5 +1,5 @@
-import { Client } from './../client';
-import { SharedDataService } from './../services/shared-data.service';
+import { Client } from "./../client";
+import { SharedDataService } from "./../services/shared-data.service";
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { isNumeric } from "rxjs/util/isNumeric";
 import Swal from "sweetalert2";
@@ -15,6 +15,7 @@ import { ClientService } from "./../services/client.service";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatTableDataSource } from "@angular/material/table";
 import { MatSort } from "@angular/material/sort";
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
   selector: "app-recherche-client",
@@ -24,11 +25,19 @@ import { MatSort } from "@angular/material/sort";
 export class RechercheClientComponent implements OnInit {
   numeroDeCompte: string;
   nomClient: string;
-  clientsLoaded: Boolean = false;
+  clientsLoaded: boolean = false;
   rechercheForm: FormGroup;
   listClients: Client[];
 
-  displayedColumns: string[] = ["code", "nom", "adresse","quartier","regime","categorie", "action"];
+  displayedColumns: string[] = [
+    "code",
+    "nom",
+    "adresse",
+    "quartier",
+    "regime",
+    "categorie",
+    "action",
+  ];
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   dataSource = new MatTableDataSource();
@@ -43,7 +52,8 @@ export class RechercheClientComponent implements OnInit {
     private router: Router,
     private formBuilder: FormBuilder,
     private clientService: ClientService,
-    private sharedDataService: SharedDataService
+    private sharedDataService: SharedDataService,
+    private spinner: NgxSpinnerService
   ) {
     var creator = new SurveyCreator.SurveyCreator(
       "creatorElement",
@@ -58,6 +68,14 @@ export class RechercheClientComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    var clientsExists = this.clientService.isClientLoaded();
+    if (clientsExists) {
+      this.listClients = this.clientService.getListClients();
+      this.dataSource = new MatTableDataSource(this.listClients);
+      this.dataSource.paginator = this.paginator;
+      this.clientsLoaded = true;
+    }
+
     this.rechercheForm = this.formBuilder.group({
       numeroDeCompte: ["", [Validators.maxLength(10), Validators.minLength(5)]],
       nomClient: ["", [Validators.maxLength(20), Validators.minLength(3)]],
@@ -92,29 +110,27 @@ export class RechercheClientComponent implements OnInit {
     var numero: string = this.rechercheForm.value.numeroDeCompte;
     var nomClient: string = this.rechercheForm.value.nomClient;
     if (numero.length == 0 && nomClient.length == 0) {
-      Swal.fire(
-        "Recherche!",
-        "Veuillez saisir numéro et/ou nom client",
-        "error"
-      );
+      this.showErrorToast("Veuillez saisir numéro et/ou nom client");
       return;
     }
 
     if (numero.length == 0 && nomClient.length != 0) {
       // recherche par nom
       if (nomClient.length < 3 || nomClient.length > 20) {
-        Swal.fire(
-          "Recherche!",
-          "La longueur du nom doit être comprise entre 3 et 20",
-          "error"
+        this.showErrorToast(
+          "La longueur du nom doit être comprise entre 3 et 20"
         );
         return;
       }
+
+      this.showSpinner();
       this.clientService.rechercheByNom(nomClient).subscribe((data) => {
         this.listClients = data;
         this.dataSource = new MatTableDataSource(this.listClients);
         this.dataSource.paginator = this.paginator;
         this.clientsLoaded = true;
+        this.registerListInService();
+        this.spinner.hide();
       });
       return;
     }
@@ -122,54 +138,46 @@ export class RechercheClientComponent implements OnInit {
     if (nomClient.length == 0 && numero.length != 0) {
       // recherche par numero
       if (numero.length < 5 || numero.length > 10) {
-        Swal.fire(
-          "Recherche!",
-          "La longueur du numéro doit être comprise entre 5 et 10",
-          "error"
+        this.showErrorToast(
+          "La longueur du numéro doit être comprise entre 5 et 10"
         );
         return;
       }
       if (!isNumeric(numero)) {
-        Swal.fire(
-          "Recherche!",
-          "Le numéro de compte doit être un nombre",
-          "error"
-        );
+        this.showErrorToast("Le numéro de compte doit être un nombre");
         return;
       }
+
+      this.showSpinner();
 
       this.clientService.rechercheByNumero(numero).subscribe((data) => {
         this.listClients = data;
         this.dataSource = new MatTableDataSource(this.listClients);
         this.dataSource.paginator = this.paginator;
         this.clientsLoaded = true;
+        this.registerListInService();
+        this.spinner.hide();
       });
       return;
     } else {
       if (nomClient.length < 3 || nomClient.length > 20) {
-        Swal.fire(
-          "Recherche!",
-          "La longueur du nom doit être comprise entre 3 et 20",
-          "error"
+        this.showErrorToast(
+          "La longueur du nom doit être comprise entre 3 et 20"
         );
         return;
       }
       if (numero.length < 5 || numero.length > 10) {
-        Swal.fire(
-          "Recherche!",
-          "La longueur du numéro doit être comprise entre 5 et 10",
-          "error"
+        this.showErrorToast(
+          "La longueur du numéro doit être comprise entre 5 et 10"
         );
         return;
       }
       if (!isNumeric(numero)) {
-        Swal.fire(
-          "Recherche!",
-          "Le numéro de compte doit être un nombre",
-          "error"
-        );
+        this.showErrorToast("Le numéro de compte doit être un nombre");
         return;
       }
+
+      this.showSpinner();
 
       this.clientService
         .rechercheByNomAndNumero(nomClient, numero)
@@ -178,6 +186,9 @@ export class RechercheClientComponent implements OnInit {
           this.dataSource = new MatTableDataSource(this.listClients);
           this.dataSource.paginator = this.paginator;
           this.clientsLoaded = true;
+          this.registerListInService();
+          this.spinner.hide();
+
         });
       return;
     }
@@ -185,7 +196,7 @@ export class RechercheClientComponent implements OnInit {
     // this.router.navigate(["detail-client"]);
   }
 
-  applyFilter(filterValue: string){
+  applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
@@ -194,10 +205,28 @@ export class RechercheClientComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
   }
 
-  gotoClientDetail(client: Client){
+  gotoClientDetail(client: Client) {
     console.log("CLIENT", JSON.stringify(client));
     this.sharedDataService.setClientRecord(client);
     this.router.navigate(["detail-client"]);
   }
 
+  showSpinner() {
+    this.spinner.show(undefined, {
+      type: "ball-triangle-path",
+      size: "medium",
+      bdColor: "rgba(0, 0, 0, 0.8)",
+      color: "#fff",
+      fullScreen: true,
+    });
+  }
+
+  showErrorToast(errorMessage: string) {
+    Swal.fire("Recherche!", errorMessage, "error");
+  }
+
+  registerListInService(){
+    this.clientService.setListClient(this.listClients);
+    this.clientService.setClientsLoaded(true);
+  }
 }
