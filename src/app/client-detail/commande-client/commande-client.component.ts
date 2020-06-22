@@ -2,12 +2,13 @@ import { ArticleService } from "./../../services/article.service";
 import { SharedDataService } from "./../../services/shared-data.service";
 import { Client } from "./../../client";
 import { Observable, of, from, BehaviorSubject, Subscription } from "rxjs";
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ɵConsole } from "@angular/core";
 import { COMMANDES } from "./commandes";
 import { Commande } from "./commande";
 import { CommandeService } from "app/services/commande.service";
 import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
 import { ActivatedRoute, Router } from "@angular/router";
+import Swal from "sweetalert2";
 
 @Component({
   selector: "app-commande-client",
@@ -93,15 +94,54 @@ export class CommandeClientComponent implements OnInit {
   }
 
   getArticleImage(codeProduit: String){
-    console.log(codeProduit)
+    //console.log(codeProduit)
     return 'assets/img/produits/' + codeProduit + '.png';
   }
 
   closeModal() {
+    let user=localStorage.getItem('username');
+    var commandeItems = this.getCommandeItems();
+    var commande = {
+      client: this.selectedClient.numero,
+      username: user,
+      items: commandeItems
+    }
+
+    this.commandeService.register(commande).subscribe(data => {
+      this.modalService.dismissAll();
+      if(data.id == null){
+        this.showErrorToast("Erreur d'enregistrement")
+      }
+      else{
+        this.showSuccessToast("Commande Enregistrée")
+      }
+    })
     this.modalService.dismissAll();
+
   }
 
   goToClientDetailPage(){
     this.router.navigate(['detail-client']);
+  }
+
+  getCommandeItems(): Array<any>{
+    var commandeItems: Array<any> = [];
+    this.articlesCommandes.forEach(item => {
+      var commandeItem = {
+        nomProduit: item.artDesign,
+        quantite: item.qte,
+        codeProduit: item.artCodars
+      }
+      commandeItems.push(commandeItem);
+    })
+    return commandeItems;
+  }
+
+  showErrorToast(errorMessage: string) {
+    Swal.fire("Commande!", errorMessage, "error");
+  }
+
+  showSuccessToast(successMessage: string) {
+    Swal.fire("Commande!", successMessage, "success");
   }
 }

@@ -1,0 +1,50 @@
+<div class="row">
+  <div class="col-12">
+    <div class="content-header">Commandes Enregistrées</div>
+  </div>
+</div>
+
+<div class="row" *ngIf="isLoadingResults" match-height>
+  <div class="col-12">
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">Résultats</h4>
+    </div>
+    <div class="card-content">
+      <div class="card-body">
+        <form class="form-search form-inline">
+          <mat-form-field class="table">
+            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtrer">
+          </mat-form-field>
+        </form>
+
+        <div class="spinner-container" *ngIf="!isLoadingResults">
+          <mat-spinner></mat-spinner>
+        </div>
+        <mat-table [dataSource]="dataSource">
+
+          <!-- Name Column -->
+
+          <ng-container matColumnDef="date">
+            <mat-header-cell *matHeaderCellDef> DATE </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{ element.dateCommande}} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="client">
+            <mat-header-cell *matHeaderCellDef> CLIENT </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{ element.client}} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="agent">
+            <mat-header-cell *matHeaderCellDef> AGENT </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{ element.utilisateur.nom}} </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+
+        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

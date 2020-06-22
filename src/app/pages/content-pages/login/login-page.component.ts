@@ -61,6 +61,7 @@ export class LoginPageComponent {
           localStorage.setItem('token', data.accessToken);
           localStorage.setItem('username', data.username);
           localStorage.setItem('role', data.role);
+          localStorage.setItem('nom', data.nom);
           this.spinner.hide();
           this.router.navigate(["/recherche-client"]);
         }

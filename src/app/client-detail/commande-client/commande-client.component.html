@@ -14,10 +14,11 @@
           <p class="card-text">{{item.artDesign}}</p>
           <div class="btn-group ml-1">
             <form role="form">
+              <div class="btn-group ml-1">
               <a class="btn btn-primary px-1 py-1 font-medium-5" (click)="onRemoveQuantity(item.artCodars)">-</a>
-              <!-- <input class="btn btn-secondary px-1 py-1" [(ngModel)]="item.qte" name="qte" onchange="enregistrer()"> -->
               <a class="btn btn-primary px-1 py-1">{{item.qte}}</a>
               <a class="btn btn-primary px-1 py-1 font-medium-5" (click)="onAddQuantity(item.artCodars)">+</a>
+            </div>
             </form>
           </div>
         </div>

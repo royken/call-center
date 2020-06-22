@@ -30,6 +30,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
   public isCollapsed = true;
   layoutSub: Subscription;
   configSub: Subscription;
+  user: any;
 
   @ViewChild('search') searchElement: ElementRef;
   @ViewChildren('searchResults') searchResults: QueryList<any>;
@@ -63,6 +64,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.user = localStorage.getItem('nom');
     this.listItems = LISTITEMS;
 
     if (this.innerWidth < 1200) {
@@ -214,6 +216,11 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
 
+  }
+
+  logout(){
+    localStorage.clear();
+    this.router.navigateByUrl('/pages/login');
   }
 
 

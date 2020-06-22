@@ -1,5 +1,14 @@
 import { Commande } from './../client-detail/commande-client/commande';
 import { Subject } from "rxjs/Subject";
+import { Injectable } from "@angular/core";
+import { HttpClient, HttpRequest, HttpEvent } from "@angular/common/http";
+import { Observable, of } from "rxjs";
+import { catchError, tap, map } from "rxjs/operators";
+
+const apiUrl = "http://localhost:8085/demo/";
+@Injectable({
+  providedIn: "root",
+})
 export class CommandeService {
   produitsSubject = new Subject<any[]>();
   private produits = [
@@ -68,6 +77,8 @@ export class CommandeService {
     },
   ];
 
+  constructor(private http: HttpClient) {}
+
   emitProductsSubject() {
     this.produitsSubject.next(this.produits.slice());
   }
@@ -95,5 +106,29 @@ export class CommandeService {
       }
     })
     return products;
+  }
+
+  getAllCommandes(): Observable<any> {
+    return this.http.get(apiUrl + "commandes");
+  }
+
+  register(data: any): Observable<any> {
+    return this.http.post<any>(apiUrl + "commandes/add", data).pipe(
+      tap((_) => this.log("register commande")),
+      catchError(this.handleError("register commande", []))
+    );
+  }
+
+  private handleError<T>(operation = "operation", result?: T) {
+    return (error: any): Observable<T> => {
+      console.error(error); // log to console instead
+      this.log(`${operation} failed: ${error.message}`);
+
+      return of(result as T);
+    };
+  }
+
+  private log(message: string) {
+    console.log(message);
   }
 }

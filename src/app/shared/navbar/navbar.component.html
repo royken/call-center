@@ -36,11 +36,20 @@
             <a class="nav-link dropdown-toggle user-dropdown d-flex align-items-end" id="dropdownBasic2"
               href="javascript:;" data-toggle="dropdown" ngbDropdownToggle>
               <div class="user d-md-flex d-none mr-2">
-                <span class="text-right">John Doe</span><span
-                  class="text-right text-muted font-small-3">Available</span>
+                <span class="text-right">{{user}}</span><span
+                  class="text-right text-muted font-small-3">Disponible</span>
               </div>
               <img class="avatar" src="assets/img/portrait/small/avatar-s-1.png" alt="avatar" height="35" width="35" />
             </a>
+            <div class="dropdown-menu text-left dropdown-menu-right m-0 pb-0" aria-labelledby="dropdownBasic2"
+              ngbDropdownMenu>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" (click) = "logout()">
+                <div class="d-flex align-items-center">
+                  <i class="ft-power mr-2"></i><span>Déconnexion</span>
+                </div>
+              </a>
+            </div>
           </li>
           <li class="nav-item d-none d-lg-block mr-2 mt-1">
           </li>

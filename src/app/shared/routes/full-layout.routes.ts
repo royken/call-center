@@ -36,4 +36,18 @@ export const Full_ROUTES: Routes = [
         (m) => m.UtilisateurModule
       ),
   },
+  {
+    path: "plaintes",
+    loadChildren: () =>
+      import("../../plainte/plainte.module").then(
+        (m) => m.PlainteModule
+      ),
+  },
+  {
+    path: "commandes",
+    loadChildren: () =>
+      import("../../commande/commande.module").then(
+        (m) => m.CommandeModule
+      ),
+  },
 ];

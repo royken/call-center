@@ -46,11 +46,12 @@ export class TokenInterceptor implements HttpInterceptor {
       catchError((error: HttpErrorResponse) => {
         console.log(error);
         if (error.status === 401) {
-          this.router.navigate(['login']);
+          this.router.navigate(['/pages/login']);
         }
         if (error.status === 400) {
           alert(error.error);
         }
+        this.router.navigate(['/pages/login']);
         return throwError(error);
       }));
 }
