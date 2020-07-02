@@ -30,7 +30,10 @@
     <div class="navbar-container">
       <div class="collapse navbar-collapse d-block" id="navbarSupportedContent">
         <ul class="navbar-nav">
-
+          <button type="button" class="btn btn-outline-info mr-2 mb-1" (click) = "gotoRechercheClient()"><i class="icon-call-in mr-1"></i>Entrant Client</button>
+          <button type="button" class="btn btn-outline-warning mr-2 mb-1"><i class="icon-call-out mr-1" (click) = "gotoFaqClient()"></i>Sortant Client</button>
+          <button type="button" class="btn btn-outline-success mr-2 mb-1"><i class="icon-call-in mr-1" (click) = "gotoEnregConso()"></i>Entrant Conso</button>
+          <button type="button" class="btn btn-outline-danger mr-2 mb-1"><i class="icon-call-out mr-1" (click) = "gotoEnregConso()"></i>Sortant Conso</button>
 
           <li class="dropdown nav-item mr-1" placement="bottom-left" display="static" ngbDropdown >
             <a class="nav-link dropdown-toggle user-dropdown d-flex align-items-end" id="dropdownBasic2"

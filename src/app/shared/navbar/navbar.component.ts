@@ -171,6 +171,18 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
     this.seachTextEmpty.emit(true);
   }
 
+  gotoRechercheClient(){
+    this.router.navigate(["/recherche-client"]);
+  }
+
+  gotoFaqClient(){
+    this.router.navigate(["/recherche-client"]);
+  }
+
+  gotoEnregConso(){
+    this.router.navigate(["/recherche-client"]);
+  }
+
 
   ChangeLanguage(language: string) {
     this.translate.use(language);

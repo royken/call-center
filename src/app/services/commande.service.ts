@@ -94,6 +94,18 @@ export class CommandeService {
     this.emitProductsSubject();
   }
 
+  updateQuantity(id, qte){
+    var i = 0;
+    for(i = 0; i < this.produits.length;i++){
+      console.log("Produit", JSON.stringify(this.produits[i]))
+      if(this.produits[i].codesi === id){
+        this.produits[i].qte = qte;
+        console.log("found", JSON.stringify(this.produits[i]))
+      }
+    }
+    this.emitProductsSubject();
+  }
+
   enregistrer() {
     console.log("PRODUITS", JSON.stringify(this.produits));
   }

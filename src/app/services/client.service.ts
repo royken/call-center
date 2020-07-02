@@ -3,7 +3,7 @@ import { HttpClient, HttpRequest, HttpEvent } from "@angular/common/http";
 import { Observable, of } from "rxjs";
 import { catchError, tap } from "rxjs/operators";
 
-const apiUrl = "http://localhost:8085/bracongo-api/";
+const apiUrl = "//localhost:8085/bracongo-api/";
 @Injectable({
   providedIn: "root",
 })

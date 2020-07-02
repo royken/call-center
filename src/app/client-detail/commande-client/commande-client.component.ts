@@ -2,13 +2,17 @@ import { ArticleService } from "./../../services/article.service";
 import { SharedDataService } from "./../../services/shared-data.service";
 import { Client } from "./../../client";
 import { Observable, of, from, BehaviorSubject, Subscription } from "rxjs";
-import { Component, OnInit, ɵConsole } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { COMMANDES } from "./commandes";
 import { Commande } from "./commande";
 import { CommandeService } from "app/services/commande.service";
 import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
 import { ActivatedRoute, Router } from "@angular/router";
 import Swal from "sweetalert2";
+import { MatPaginator } from "@angular/material/paginator";
+import { MatTableDataSource } from "@angular/material/table";
+import { MatSort } from "@angular/material/sort";
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: "app-commande-client",
@@ -17,6 +21,7 @@ import Swal from "sweetalert2";
 })
 export class CommandeClientComponent implements OnInit {
   productsSubscription: Subscription;
+  productsCommandesSubscription: Subscription;
   products: any[];
   produitsCommande: any[];
   closeResult = "";
@@ -25,6 +30,20 @@ export class CommandeClientComponent implements OnInit {
   articlesCommandes: any[];
   articleSubscription: Subscription;
   articleLoaded: boolean = false;
+  selectedArticle: any;
+  qteArticleSelected:number;
+
+  displayedColumns: string[] = [
+    "image",
+    "code",
+    "nom",
+    "pu",
+    "qte",
+    "action"
+  ];
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+  dataSource = new MatTableDataSource();
 
   constructor(
     private commandeService: CommandeService,
@@ -38,17 +57,24 @@ export class CommandeClientComponent implements OnInit {
   ngOnInit(): void {
     this.sharedDataService.getClientRecord().subscribe((data) => {
       this.selectedClient = data;
+      this.articleService.getArticles(this.selectedClient.numero).subscribe((_) => {
+        this.articleSubscription = this.articleService.articlesSubject.subscribe(
+          (articles: any[]) => {
+            this.articles = articles;
+            this.dataSource = new MatTableDataSource(this.articles);
+            this.dataSource.paginator = this.paginator;
+            this.articleLoaded = true;
+          }
+        );
+        this.articleService.emitProductsSubject();
+
+      });
     });
 
-    this.articleService.getArticles().subscribe((_) => {
-      this.articleSubscription = this.articleService.articlesSubject.subscribe(
-        (articles: any[]) => {
-          this.articles = articles;
-          this.articleLoaded = true;
-        }
-      );
-      this.articleService.emitProductsSubject();
-    });
+
+
+    this.articlesCommandes = this.articleService.getArticlesCommandes();
+    this.articleService.emitProductsCommandesSubject();
   }
 
   onAddQuantity(id) {
@@ -143,5 +169,44 @@ export class CommandeClientComponent implements OnInit {
 
   showSuccessToast(successMessage: string) {
     Swal.fire("Commande!", successMessage, "success");
+  }
+
+  editQuantite(element: any, content){
+    this.selectedArticle = element;
+    this.qteArticleSelected = this.selectedArticle.qte;
+    this.modalService
+      .open(content, { ariaLabelledBy: "modal-basic-title" })
+      .result.then(
+        (result) => {
+          this.closeResult = `Closed with: ${result}`;
+        },
+        (reason) => {
+          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+        }
+      );
+  }
+
+  closeQtyModal(){
+    console.log("article", JSON.stringify(this.selectedArticle));
+    console.log("QUANTITE",this.qteArticleSelected);
+    this.articleService.updateQuantity(this.selectedArticle.artCodars, this.qteArticleSelected);
+    this.modalService.dismissAll();
+  }
+
+  applyFilter(filterValue: string) {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  ngAfterViewInit(): void {
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
+  }
+
+  getQteTotale(): number{
+    return this.articleService.articlesQte;
+  }
+
+  getPrixTotal(): number{
+    return this.articleService.prixTotal;
   }
 }

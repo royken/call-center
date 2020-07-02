@@ -2,9 +2,124 @@
   <div class="col-12">
     <div class="content-header">Ventes Clients - {{selectedClient.numero}} - {{selectedClient.raisonSociale}}</div>
   </div>
-  <button type="button" class="btn btn-success round mr-1 mb-1" (click)="goToClientDetailPage()" >Retour</button>
+  <button type="button" class="btn btn-success round mr-1 mb-1" (click)="goToClientDetailPage()">Retour</button>
 </div>
 
+<div class="row" *ngIf="articleLoaded" match-height>
+  <div class="col-9">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">Produits</h4>
+      </div>
+      <div class="card-content">
+        <div class="card-body">
+          <form class="form-search form-inline">
+            <mat-form-field class="table">
+              <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtrer">
+            </mat-form-field>
+          </form>
+
+          <div class="spinner-container" *ngIf="!articleLoaded">
+            <mat-spinner></mat-spinner>
+          </div>
+          <mat-table [dataSource]="dataSource">
+
+            <!-- Name Column -->
+
+            <ng-container matColumnDef="image">
+              <mat-header-cell *matHeaderCellDef> Image </mat-header-cell>
+              <mat-cell *matCellDef="let element"> <img class="card-img-top img-fluid"
+                  src="{{getArticleImage(element.artCodart)}}" alt="Card image cap" style="height: 100px;"> </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="code">
+              <mat-header-cell *matHeaderCellDef> CODE </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{ element.artCodars}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="nom">
+              <mat-header-cell *matHeaderCellDef> NOM </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{ element.artDesign}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="pu">
+              <mat-header-cell *matHeaderCellDef> P.U. </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{ element.pu}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="qte">
+              <mat-header-cell *matHeaderCellDef> AGENT </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{ element.qte}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="action">
+              <mat-header-cell *matHeaderCellDef> Action </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                <button type="button" class="btn btn-info" matTooltip="Modifier Quantité"
+                  (click)="editQuantite(element,editQty)"><i class="ft-edit mr-1 primary cursor-pointer" ></i>
+                </button>&nbsp;
+              </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+          </mat-table>
+
+          <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-3">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">Panier</h4>
+      </div>
+      <div class="card-content">
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th scope="col">Produit</th>
+                  <th scope="col">Quantite</th>
+                  <th scope="col">Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let produit of articlesCommandes">
+                  <td>
+                    {{produit.artDesign}}
+                  </td>
+                  <td>
+                    {{produit.qte}}
+                  </td>
+                  <td>
+                    {{produit.qte * produit.pu}}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <hr>
+            <table class="table table-striped">
+              <tr >
+                <td>
+                  TOTAL
+                </td>
+                <td>
+                  {{getQteTotale()}}
+                </td>
+                <td>
+                  {{getPrixTotal()}}
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!--
 <div class="row" *ngIf="articleLoaded" >
   <div class="col-xl-2 col-lg-6 col-md-12" *ngFor="let item of articles">
     <div class="card overflow-hidden">
@@ -26,6 +141,7 @@
     </div>
   </div>
 </div>
+-->
 
 <button type="button" class="btn btn-warning" (click)="open(content)">Enregistrer</button>
 
@@ -42,8 +158,8 @@
       <table class="table table-striped">
         <thead>
           <tr>
-           <th scope="col"  >Produit</th>
-            <th scope="col"  >Quantite</th>
+            <th scope="col">Produit</th>
+            <th scope="col">Quantite</th>
           </tr>
         </thead>
         <tbody>
@@ -61,5 +177,23 @@
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-primary" (click)="closeModal()">Save</button>
+  </div>
+</ng-template>
+
+<ng-template #editQty let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Modification Quantite</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form>
+      <input type="number" name="quantity" min="0" [(ngModel)]="qteArticleSelected">
+    </form>
+
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="closeQtyModal()">Save</button>
   </div>
 </ng-template>
